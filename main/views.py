@@ -21,14 +21,14 @@ def log_in(request):
                 user=User.objects.get(email=email)
                 user = authenticate(username=user.username,password=password)
                 login(request, user)
-                return redirect('http://127.0.0.2:8000/')
+                return redirect('http://tlhclk.pythonanywhere.com/')
         return render(request,'login.html',{'form':formuser})
     else:
-        return redirect('http://127.0.0.2:8000/')
+        return redirect('http://tlhclk.pythonanywhere.com/')
 
 def log_out(request):
     logout(request)
-    return redirect('http://127.0.0.2:8000/')
+    return redirect('http://tlhclk.pythonanywhere.com/')
 
 
 def province_list(request,province_id):
@@ -56,14 +56,14 @@ def service_add(request,service_id):
                 form1.save()
         return render(request,'form.html',{'form':form1})
     else:
-        return redirect('http://127.0.0.2:8000/')
+        return redirect('http://tlhclk.pythonanywhere.com/')
 
 def service_list(request,service_id):
     if request.user.__str__()!='AnonymousUser':
         services=ServiceModel.objects.all()
-        return render(request,'list_any.html',{'title':'Service List','list1':services,'item_link':'http://127.0.0.2:8000/main/service_add/','item_title':'New Service'})
+        return render(request,'list_any.html',{'title':'Service List','list1':services,'item_link':'http://tlhclk.pythonanywhere.com/main/service_add/','item_title':'New Service'})
     else:
-        return redirect('http://127.0.0.2:8000/')
+        return redirect('http://tlhclk.pythonanywhere.com/')
 
 
 
