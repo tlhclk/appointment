@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+</head>
+<body>
+<p><a href="http://127.0.0.2:8000/">HOME</a> - <a href="{{ item_link }}">{{ item_title }}</a></p>
+<p></p>
+<p>{{ title }}</p>
+<ul>
+{% for item in list1 %}
+    <li>{{ item }}</li>
+
+{% endfor %}
+</ul>
+
+</body>
+</html>
