@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
-from django.conf.urls import url,include
-from django.urls import path
-from django.contrib import admin
-from django.contrib.auth import views as auth_views
+from django.conf.urls import url
 from .views import appointment_list,find_available_appointments,make_appointment,busy_day,show_close_corp,\
     most_popular_service,rating_list,rate,most_appointer,busy_hour,complain
 
