@@ -42,7 +42,6 @@ def find_available_appointments(request):
 
 def busy_day(request):
     if request.user.__str__()!='AnonymousUser':
-
         app_list=AppointmentModel.objects.filter(res_hour_id__date__range=(datetime.today() - timedelta(hours=360),
                                                                            datetime.today() + timedelta(hours=360)))
         day_dict={}
