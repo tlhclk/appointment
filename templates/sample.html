@@ -1,13 +1,35 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html>
+  <head>
+  <title>Django Wrapper | FusionCharts</title>
+   {% load static %}
+   <script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
+   <script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"></script>
+  </head>
+  <body>
+    <!-- FusionCharts will render here-->
+    <div id="chart-1"></div>
+    <!-- dumping JavaScript code here -->
 
-{% block content %}
-  <h2>Person Form</h2>
-  <form method="post" novalidate>
-    {% csrf_token %}
-    <table>
-      {{ form.as_table }}
-    </table>
-    <button type="submit">Save</button>
-    <a href="{% url 'person_changelist' %}">Nevermind</a>
-  </form>
-{% endblock %}
+
+        <script type="text/javascript">
+            FusionCharts.ready(function () {
+                new FusionCharts({"type": "line",
+                    "id": "ex1",
+                    "width": "600",
+                    "height": "400",
+                    "renderAt": "chart-1",
+                    "dataFormat": "json",
+                    "dataSource": {"chart": {
+                                        "caption": "Most Busy Days",
+                                        "yaxisname": "Day (Count)",
+                                        "subcaption": "Diyetiko",
+                                        "numbersuffix": " days",
+                                        "rotatelabels": "1",
+                                        "setadaptiveymin": "1",
+                                        "theme": "fusion"},
+                        "data":JSON.parse('{{ data1|safe }}'.replace(/&quot;/,'"')) }});FusionCharts("ex1").render();
+            });
+        </script>
+  </body>
+</html>
