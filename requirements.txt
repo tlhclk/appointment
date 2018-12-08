@@ -1,3 +1,0 @@
-Django
-Django-phonenumber-field
-virtual-env
