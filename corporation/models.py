@@ -50,7 +50,7 @@ class AppointmentHourModel(models.Model):
 
 
 class CorpServiceModel(models.Model):
-    corp_loc_id=models.ForeignKey(CorpLocModel,on_delete=models.CASCADE)
+    corporation_id=models.ForeignKey(CorporationModel,on_delete=models.CASCADE,default='1')
     service_id=models.ForeignKey(ServiceModel,on_delete=models.CASCADE)
     details=models.CharField(max_length=200,null=True,blank=True)
 
@@ -58,7 +58,7 @@ class CorpServiceModel(models.Model):
         db_table='corp_service_table'
 
     def __str__(self):
-        return str(self.corp_loc_id)+' - '+str(self.service_id)
+        return str(self.corporation_id)+' - '+str(self.service_id)
 
 
 class ReservedHourModel(models.Model):
