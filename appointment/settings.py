@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'individual.apps.IndividualConfig',
     'records.apps.RecordsConfig',
     'user.apps.UserConfig',
-    'crispy_forms'
+
 ]
 
 MIDDLEWARE = [
