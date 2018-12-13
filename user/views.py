@@ -7,9 +7,11 @@ def user_list(request,user_id):
     if request.user.__str__()!='AnonymousUser':
         if request.user.is_superuser:
             user=User.objects.all()
-            return render(request,'list_any.html',{'title':'User List','list1':user})
+            return render(request,'user/user_list.html',{'title':'User List','list1':user})
+        else:
+            return redirect('http://127.0.0.2:8000/')
     else:
-        return redirect('https://tlhclk.pythonanywhere.com/')
+        return redirect('http://127.0.0.2:8000/')
 
 
 def user_add(user_dict):

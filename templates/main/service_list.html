@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+    <table class="table table-hover">
+    <thead>
+        <tr>
+            <th><p>Service Name</p></th>
+            <th><p>Details</p></th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for item in list1 %}
+    <tr>
+        <td><p>{{ item.service_title }}</p></td>
+        <td><p>{{ item.service_detail }}</p></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+{% endblock %}

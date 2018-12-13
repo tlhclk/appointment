@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+    <table class="table table-hover">
+    <thead>
+        <tr>
+            <th><p>Corporation Name</p></th>
+            <th><p>Location</p></th>
+            <th><p>Date</p></th>
+            <th><p>Start Time</p></th>
+            <th><p>End Time</p></th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for item in list1 %}
+    <tr>
+        <td><p>{{ item.corp_loc_id.corporation }}</p></td>
+        <td><p>{{ item.corp_loc_id.location }}</p></td>
+        <td><p>{{ item.date }}</p></td>
+        <td><p>{{ item.start_time }}</p></td>
+        <td><p>{{ item.end_time }}</p></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+{% endblock %}

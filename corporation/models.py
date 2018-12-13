@@ -23,6 +23,9 @@ class CorporationModel(models.Model):
     def __str__(self):
         return str(self.corp_name)
 
+    def cat(self):
+        return str(dict(self.categories)[self.corp_category])
+
 
 class CorpLocModel(models.Model):
     corporation=models.ForeignKey(CorporationModel,on_delete=models.CASCADE)

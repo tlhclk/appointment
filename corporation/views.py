@@ -11,11 +11,12 @@ from datetime import datetime,timedelta
 def corporation_list(request,corporation_id):
     if request.user.__str__()!='AnonymousUser':
         corporations=CorporationModel.objects.all()
-        return render(request, 'list_any.html', {'title': 'Corporation List', 'list1': corporations,
-                                                     'item_link': 'https://tlhclk.pythonanywhere.com/corporation/corporation_add/',
+        return render(request, 'corp/corporation_list.html', {'title': 'Corporation List', 'list1': corporations,
+                                                     'item_link': 'http://127.0.0.2:8000/corporation/corporation_add/',
                                                      'item_title': 'New Corporation'})
     else:
-        return redirect('https://tlhclk.pythonanywhere.com/')
+        return redirect('http://127.0.0.2:8000/')
+
 
 def corporation_add(request,corporation_id):
     if request.user.__str__()=='AnonymousUser':
@@ -36,33 +37,32 @@ def corporation_add(request,corporation_id):
                           'corporation_id':CorporationModel.objects.all().last()
                           }
                 user_add(user_dict)
-        return render(request,'form.html',{'form':form1})
+        return render(request,'corp/corporation_add.html',{'form':form1,'title':'New Corporation'})
     else:
-        return redirect('https://tlhclk.pythonanywhere.com/')
+        return redirect('http://127.0.0.2:8000/')
 
 
 def corp_loc_list(request,corp_loc_id):
     if request.user.__str__()!='AnonymousUser':
         if request.user.corporation_id!='':
             corp_locs=CorpLocModel.objects.filter(corporation=request.user.corporation_id)
-            return render(request,'list_any.html',{'title':'Corporation Locations List','list1':corp_locs})
+            return render(request,'corp/corp_loc_list.html',{'title':'Corporation Locations List','list1':corp_locs})
     else:
-        return redirect('https://tlhclk.pythonanywhere.com/')
+        return redirect('http://127.0.0.2:8000/')
 
 
 def app_hour_list(request,app_hour_id):
     if request.user.__str__()!='AnonymousUser':
         if request.user.corporation_id!='':
             app_hours=AppointmentHourModel.objects.filter(corp_loc_id__corporation=request.user.corporation_id)
-            return render(request,'list_any.html',{'title':'Appointment Hour List','list1':app_hours,'item_link':'https://tlhclk.pythonanywhere.com/corporation/app_hour_add/','item_title':'New Appoinment Hour'})
-
+            return render(request,'corp/app_hour_list.html',{'title':'Appointment Hour List','list1':app_hours,'item_link':'http://127.0.0.2:8000/corporation/app_hour_add/','item_title':'New Appoinment Hour'})
 
 
 def corp_service_list(request,corp_service_id):
     if request.user.__str__()!='AnonymousUser':
         if request.user.corporation_id!='':
             corp_services=CorpServiceModel.objects.filter(corporation_id=request.user.corporation_id)
-            return render(request,'list_any.html',{'title':'Corporation Service List','list1':corp_services})
+            return render(request,'corp/corp_service_list.html',{'title':'Corporation Service List','list1':corp_services})
 
 
 def app_hour_add(request,app_hour_id):
@@ -73,8 +73,8 @@ def app_hour_add(request,app_hour_id):
                 form1=AppHourForm(request.user,request.POST)
                 if form1.is_valid():
                     form1.add(request)
-            return render(request,'app_hour_add.html',{'form':form1,'title':'Add New Appointment Hour'})
-        return redirect('https://tlhclk.pythonanywhere.com/')
+            return render(request,'corp/app_hour_add.html',{'form':form1,'title':'Add New Appointment Hour'})
+        return redirect('http://127.0.0.2:8000/')
     else:
-        return redirect('https://tlhclk.pythonanywhere.com/')
+        return redirect('http://127.0.0.2:8000/')
 

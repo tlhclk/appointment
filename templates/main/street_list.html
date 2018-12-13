@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+    <table class="table table-hover">
+    <thead>
+        <tr>
+            <th><p>Street Name</p></th>
+            <th><p>Dicstrict Name</p></th>
+            <th><p>Town Name</p></th>
+            <th><p>Province Name</p></th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for item in list1 %}
+    <tr>
+        <td><p>{{ item.street_title }}</p></td>
+        <td><p>{{ item.district_id.district_title }}</p></td>
+        <td><p>{{ item.district_id.town_id.town_title }}</p></td>
+        <td><p>{{ item.district_id.town_id.province_id.province_title }}</p></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+{% endblock %}

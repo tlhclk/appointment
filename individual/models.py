@@ -25,3 +25,9 @@ class IndividualModel(models.Model):
 
     def __str__(self):
         return str(self.ind_name)+' '+str(self.ind_lastname)
+
+    def sta(self):
+        return str(dict(self.status)[self.ind_statu])
+
+    def gen(self):
+        return str(dict(self.gender)[self.ind_gender])

@@ -49,7 +49,6 @@ class StreetModel(models.Model):
         return str(self.street_title)+' - '+str(self.district_id)
 
 
-
 class ServiceModel(models.Model):
     service_title=models.CharField(max_length=50)
     service_detail=models.CharField(max_length=200,null=True,blank=True)

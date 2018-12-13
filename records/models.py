@@ -35,4 +35,4 @@ class RatingModel(models.Model):
         db_table='rating_table'
 
     def __str__(self):
-        return str(self.corp_loc_id)+' - '+str(self.ind_id)+' - '+str(self.value)+' - '+str(self.details)
+        return str(self.corp_id)+' - '+str(self.ind_id)+' - '+str(self.value)+' - '+str(self.details)

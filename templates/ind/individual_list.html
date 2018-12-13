@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+    <table class="table table-hover">
+    <thead>
+        <tr>
+            <th><p>Idendification No.</p></th>
+            <th><p>Name</p></th>
+            <th><p>Last Name</p></th>
+            <th><p>Email</p></th>
+            <th><p>Phone</p></th>
+            <th><p>Rating</p></th>
+            <th><p>Adress</p></th>
+            <th><p>Birthday</p></th>
+            <th><p>Status</p></th>
+            <th><p>Gender</p></th>
+            <th><p>Details</p></th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for item in list1 %}
+    <tr>
+        <td><p>{{ item.ind_no }}</p></td>
+        <td><p>{{ item.ind_name }}</p></td>
+        <td><p>{{ item.ind_lastname }}</p></td>
+        <td><p>{{ item.ind_email }}</p></td>
+        <td><p>{{ item.ind_phone }}</p></td>
+        <td><p>{{ item.ind_rating }}</p></td>
+        <td><p>{{ item.ind_loc_id }}</p></td>
+        <td><p>{{ item.ind_bday }}</p></td>
+        <td><p>{{ item.sta }}</p></td>
+        <td><p>{{ item.gender }}</p></td>
+        <td><p>{{ item.ind_detail }}</p></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+{% endblock %}

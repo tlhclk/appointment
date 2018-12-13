@@ -14,65 +14,73 @@ import json
 
 def appointment_list(request,appointment_id):
     if request.user.__str__()!='AnonymousUser':
-        if request.user.corporation_id!='':
+        if request.user.corporation_id!=None:
             appointments = AppointmentModel.objects.filter(res_hour_id__corp_loc_id__corporation=request.user.corporation_id)
-        elif request.user.individual_id!='':
+        elif request.user.individual_id!=None:
             appointments=AppointmentModel.objects.filter(person_id=request.user.individual_id)
-        return render(request,'list_any.html',{'title':'Appointment List','list1':appointments,'item_link':'https://tlhclk.pythonanywhere.com/record/make_appointment/','item_title':'Make Appointment'})
+        return render(request,'records/appointment_list.html',{'title':'List of All Appointment','list1':appointments,'item_link':'http://127.0.0.2:8000/record/make_appointment/','item_title':'Make Appointment'})
     else:
-        return redirect('https://tlhclk.pythonanywhere.com/')
+        return redirect('http://127.0.0.2:8000/')
 
 def make_appointment(request):
     if request.user.__str__()!='AnonymousUser':
-        if request.user.individual_id_id!='':
+        if request.user.individual_id!=None:
             form1=AppointmentForm()
             if request.POST:
                 form1=AppointmentForm(request.POST)
                 if form1.is_valid():
                     form1.add(request)
-            return render(request,'form.html',{'form':form1})
-        return redirect('https://tlhclk.pythonanywhere.com/')
+            return render(request,'form.html',{'form':form1,'title':'Make An Appointment'})
+        return redirect('http://127.0.0.2:8000/')
     else:
-        return redirect('https://tlhclk.pythonanywhere.com/')
+        return redirect('http://127.0.0.2:8000/')
 
 def find_available_appointments(request):
     if request.user.__str__()!='AnonymousUser':
-        if request.user.individual_id!='':
+        if request.user.individual_id!=None:
             list1=AppointmentHourModel.objects.filter(date__range=(datetime.today()+timedelta(hours=24),datetime.today()+timedelta(hours=720)))
-            return render(request,'list_any.html',{'title':'Appointment Hours','list1':list1})
+            return render(request,'records/find_available_appointments.html',{'title':'Appointment Hours','list1':list1})
+        else:
+            return redirect('http://127.0.0.2:8000/')
     else:
-        return redirect('https://tlhclk.pythonanywhere.com/')
+        return redirect('http://127.0.0.2:8000/')
 
 def busy_day(request):
-    app_list = AppointmentModel.objects.filter(res_hour_id__date__range=(datetime.today() - timedelta(hours=3600),
-                                                                         datetime.today() + timedelta(hours=3600)))
-    day_dict = {}
-    for app in app_list:
-        if app.res_hour_id.date not in day_dict:
-            day_dict[app.res_hour_id.date] = 1
-        else:
-            day_dict[app.res_hour_id.date] += 1
-    data = []
-    for item in day_dict:
-        data.append({"label":str(item),"value":str(day_dict[item])})
-    day_list=[]
-    for item in day_dict:
-        day_list.append(str(item)+' - '+str(day_dict[item]))
+    if request.user.__str__()!='AnonymousUser':
+        if request.user.corporation_id!=None:
+            app_list = AppointmentModel.objects.filter(res_hour_id__date__range=(datetime.today() - timedelta(hours=3600),
+                                                                                 datetime.today() + timedelta(hours=3600)))
+            day_dict = {}
+            for app in app_list:
+                if app.res_hour_id.date not in day_dict:
+                    day_dict[app.res_hour_id.date] = 1
+                else:
+                    day_dict[app.res_hour_id.date] += 1
+            data = []
+            for item in day_dict:
+                data.append({"label":str(item),"value":str(day_dict[item])})
+            day_list=[]
+            for item in day_dict:
+                day_list.append(str(item)+' - '+str(day_dict[item]))
 
-    data=json.dumps(data)
-    return render(request, 'graph.html', {'data1':data,
-                                          'title':'Most Busy Days',
-                                          'yname':'Number of Appointment',
-                                           'subtitle':'Frequency of Busy Days',
-                                          'ynamesuffix':' Times',
-                                           'list1': sorted(day_list),
-                                         'item_link': 'https://tlhclk.pythonanywhere.com/corporation/appointment_list/',
-                                         'item_title': 'Appointment List'})
+            data=json.dumps(data)
+            return render(request, 'records/busy_day.html', {'data1':data,
+                                                  'title':'Most Busy Days',
+                                                  'yname':'Number of Appointment',
+                                                   'subtitle':'Frequency of Busy Days',
+                                                  'ynamesuffix':' Times',
+                                                   'list1': sorted(day_list),
+                                                 'item_link': 'http://127.0.0.2:8000/corporation/appointment_list/',
+                                                 'item_title': 'Appointment List'})
+        else:
+            return redirect('http://127.0.0.2:8000/')
+    else:
+        return redirect('http://127.0.0.2:8000/')
 
 
 def show_close_corp(request,degree):
     if request.user.__str__()!='AnonymousUser':
-        if request.user.individual_id!='':
+        if request.user.individual_id!=None:
             loc=request.user.individual_id.ind_loc_id
             corp_loc=CorpLocModel.objects.all()
             list1=[]
@@ -98,116 +106,123 @@ def show_close_corp(request,degree):
                 x='Corporations is in Same Street'
             else:
                 x='There is no corporation close to you'
-            return render(request, 'list_any.html', {'title': x, 'list1': list1})
+            return render(request, 'records/show_close_corp.html', {'title': x, 'list1': list1})
+        else:
+            return redirect('http://127.0.0.2:8000/')
     else:
-        return redirect('https://tlhclk.pythonanywhere.com/')
+        return redirect('http://127.0.0.2:8000/')
 
 def show_appointments(request,date):
     if request.user.__str__()!='AnonymousUser':
         if date[0]=='c':
-            app_list = AppointmentModel.objects.filter(res_hour_id__corp_loc_id__corporation=request.user.corporation_id, )
+            if request.user.corporation_id!=None:
+                app_list = AppointmentModel.objects.filter(res_hour_id__corp_loc_id__corporation=request.user.corporation_id, )
+            else:
+                return redirect('http://127.0.0.2:8000/')
         elif date[0]=='i':
-            app_list = AppointmentModel.objects.filter(person_id=request.user.individual_id)
+            if request.user.individual_id!=None:
+                app_list = AppointmentModel.objects.filter(person_id=request.user.individual_id)
+            else:
+                return redirect('http://127.0.0.2:8000/')
         else:
-            app_list = AppointmentModel.objects.all()
+            return redirect('http://127.0.0.2:8000/')
         i_c=date[0]
         date=date[1:]
         if len(date)==4:
             app_list=app_list.filter(res_hour_id__date__year=date)
             x='Appointment List Date: '+date
-            y='https://tlhclk.pythonanywhere.com/individual/appointment_list/'+i_c
+            y='http://127.0.0.2:8000/individual/appointment_list/'+i_c
             z='Appointment List'
         elif len(date)==2:
             app_list = app_list.filter(res_hour_id__date__month=date)
             x='Appointment List Date: '+date
-            y='https://tlhclk.pythonanywhere.com/individual/appointment_list/'+i_c
+            y='http://127.0.0.2:8000/individual/appointment_list/'+i_c
             z='Appointment List'
         elif len(date)==7:
             month,year=date.split('-')
             app_list = app_list.filter(res_hour_id__date__year=year,res_hour_id__date__month=month)
             x='Appointment List Date: '+date
-            y='https://tlhclk.pythonanywhere.com/individual/appointment_list/'+i_c
+            y='http://127.0.0.2:8000/individual/appointment_list/'+i_c
             z='Appointment List'
         elif len(date)==3 and date[-1]=='w':
             date=str(datetime.today().year)+' '+date[:2]+' w1'
             res = datetime.strptime(date, "%Y %W w%w")
             app_list = app_list.filter(res_hour_id__date__range=(res,res+timedelta(days=7)))
             x='Appointment List Date: '+date[0:]
-            y='https://tlhclk.pythonanywhere.com/individual/appointment_list/'+i_c
+            y='http://127.0.0.2:8000/individual/appointment_list/'+i_c
             z='Appointment List'
         elif len(date)==1:
             if date=='o':
                 app_list=app_list.filter(res_hour_id__date__range=(datetime.today()-timedelta(hours=720),datetime.today()))
                 x='Appointment List Old'
-                y='https://tlhclk.pythonanywhere.com/individual/appointment_list/'+i_c+'n'
+                y='http://127.0.0.2:8000/individual/appointment_list/'+i_c+'n'
                 z='Appointment List Next'
             elif date=='n':
                 app_list = app_list.filter(
                     res_hour_id__date__range=(datetime.today() + timedelta(hours=24), datetime.today() + timedelta(hours=720)))
                 x='Appointment List Next'
-                y='https://tlhclk.pythonanywhere.com/individual/appointment_list/'+i_c+'o'
+                y='http://127.0.0.2:8000/individual/appointment_list/'+i_c+'o'
                 z='Appointment List Old'
             else:
                 x='Appointment List'
-                y='https://tlhclk.pythonanywhere.com/individual/appointment_list/'+i_c+'n'
+                y='http://127.0.0.2:8000/individual/appointment_list/'+i_c+'n'
                 z='Appointment List Next'
         else:
             x='Appointment List'
-            y='https://tlhclk.pythonanywhere.com/individual/appointment_list/'+i_c+'n'
+            y='http://127.0.0.2:8000/individual/appointment_list/'+i_c+'n'
             z='Appointment List Next'
-        return render(request, 'list_any.html', {'title':x,
+        return render(request, 'records/show_appointments.html', {'title':x,
                                                  'list1': app_list,
                                                  'item_link':y,
                                                  'item_title':z})
     else:
-        return redirect('https://tlhclk.pythonanywhere.com/')
+        return redirect('http://127.0.0.2:8000/')
 
 def most_popular_service(request,date):
     if request.user.__str__()!='AnonymousUser':
-        if request.user.corporation_id!='':
-            app_list=AppointmentModel.objects.filter(res_hour_id__corp_loc_id__corporation=request.user.corporation_id)
-            if len(date)==4:
-                app_list=app_list.filter(res_hour_id__date__year=date)
-            elif len(date)==2:
-                app_list = app_list.filter(res_hour_id__date__month=date)
-            elif len(date)==7:
-                month,year=date.split('-')
-                app_list = app_list.filter(res_hour_id__date__year=year,res_hour_id__date__month=month)
-            elif len(date)==3 and date[-1]=='w':
-                date=str(datetime.today().year)+' '+date[:2]+' w1'
-                res = datetime.strptime(date, "%Y %W w%w")
-                app_list = app_list.filter(res_hour_id__date__range=(res,res+timedelta(days=7)) )
-            service_dict={}
-            for item in app_list:
-                if item.service not in service_dict:
-                    service_dict[item.service]=1
-                else:
-                    service_dict[item.service]+=1
-            return render(request, 'list_any.html', {'title': 'Appointment List', 'list1': service_dict.items(),'item_link': 'https://tlhclk.pythonanywhere.com/corporation/appointment_list_next/','item_title': 'Appointment List Next'})
+        app_list=AppointmentModel.objects.filter(res_hour_id__corp_loc_id__corporation=request.user.corporation_id)
+        if len(date)==4:
+            app_list=app_list.filter(res_hour_id__date__year=date)
+        elif len(date)==2:
+            app_list = app_list.filter(res_hour_id__date__month=date)
+        elif len(date)==7:
+            month,year=date.split('-')
+            app_list = app_list.filter(res_hour_id__date__year=year,res_hour_id__date__month=month)
+        elif len(date)==3 and date[-1]=='w':
+            date=str(datetime.today().year)+' '+date[:2]+' w1'
+            res = datetime.strptime(date, "%Y %W w%w")
+            app_list = app_list.filter(res_hour_id__date__range=(res,res+timedelta(days=7)) )
+        service_dict={}
+        for item in app_list:
+            if item.service not in service_dict:
+                service_dict[item.service]=1
+            else:
+                service_dict[item.service]+=1
+        return render(request, 'records/most_popular_service.html', {'title': 'Appointment List', 'list1': service_dict.items(),'item_link': 'http://127.0.0.2:8000/corporation/appointment_list_next/','item_title': 'Appointment List Next'})
     else:
-        return redirect('https://tlhclk.pythonanywhere.com/')
+        return redirect('http://127.0.0.2:8000/')
 
 def rating_list(request,rating_id):
     if request.user.__str__()!='AnonymousUser':
         if rating_id:
             ratings=[RatingModel.objects.get(pk=rating_id)]
         else:
-            if request.user.corporation_id!='':
+            if request.user.corporation_id!=None:
                 ratings=RatingModel.objects.filter(corp_id=request.user.corporation_id)
                 x='Corporation Rating List'
-                y='https://tlhclk.pythonanywhere.com/record/rate/i'
+                y='http://127.0.0.2:8000/record/rate/i'
                 z='Rate a Customer'
             elif request.user.individual_id != '':
                 ratings = RatingModel.objects.filter(ind_id=request.user.individual_id)
                 x='Individual Rating List'
-                y='https://tlhclk.pythonanywhere.com/record/rate/c'
+                y='http://127.0.0.2:8000/record/rate/c'
                 z='Rate a Corporation'
-        return render(request, 'list_any.html', {'title': x,
+        return render(request, 'records/rating_list.html', {'title': x,
                                                  'list1': ratings,
                                                  'item_link': y,
                                                  'item_title': z})
     else:
-        return redirect('https://tlhclk.pythonanywhere.com/')
+        return redirect('http://127.0.0.2:8000/')
 
 def rate(request,i_c):
     if request.user.__str__()!='AnonymousUser':
@@ -217,7 +232,7 @@ def rate(request,i_c):
                 form1=iRatingForm(request.POST)
                 if form1.is_valid():
                     form1.add(request)
-            return render(request,'form.html',{'title':'Rate ',
+            return render(request,'records/rate.html',{'title':'Rate ',
                                                'form':form1})
         elif i_c=='c':
             form1=cRatingForm()
@@ -226,34 +241,43 @@ def rate(request,i_c):
                 form1=cRatingForm(request.POST)
                 if form1.is_valid():
                     form1.add(request)
-            return render(request,'form.html',{'title':'Rate ',
+            return render(request,'records/rate.html',{'title':'Rate ',
                                                'form':form1})
         else:
-            return redirect('https://tlhclk.pythonanywhere.com/record/rating_list/')
+            return redirect('http://127.0.0.2:8000/record/rating_list/')
     else:
-        return redirect('https://tlhclk.pythonanywhere.com/')
+        return redirect('http://127.0.0.2:8000/')
 
 
 def most_appointer(request,id):
     if request.user.__str__()!='AnonymousUser':
-        if request.user.corporation_id!='':
-            all_apps=AppointmentModel.objects.filter(res_hour_id__corp_loc_id__corporation=request.user.corporation_id)
-            ind_dict={}
-            for x in all_apps:
-                if x.person_id not in ind_dict:
-                    ind_dict[x.person_id]=1
-                else:
-                    ind_dict[x.person_id]+=1
-            return render(request, 'list_any.html', {'title': 'Most Appointmenter List', 'list1': ind_dict.items(),
-                                             'item_link': 'https://tlhclk.pythonanywhere.com/corporation/appointment_list/',
+        all_apps=AppointmentModel.objects.filter(res_hour_id__corp_loc_id__corporation=request.user.corporation_id)
+        ind_dict={}
+        data=[]
+        for x in all_apps:
+            if x.person_id not in ind_dict:
+                ind_dict[x.person_id]=1
+            else:
+                ind_dict[x.person_id]+=1
+        for y,z in ind_dict.items():
+            data.append({"label":str(y),"value":str(z)})
+        data.append({"label": str("ben"), "value": str(5)})
+        return render(request, 'records/most_appointer.html', {'data1':data,
+                                              'title':'Most Appointer List',
+                                              'yname':'Number of Appointment',
+                                               'subtitle':'',
+                                              'ynamesuffix':' Times',
+                                               'list1': ind_dict.items(),
+                                             'item_link': 'http://127.0.0.2:8000/corporation/appointment_list/',
                                              'item_title': 'Appointment List'})
+
     else:
-        return redirect('https://tlhclk.pythonanywhere.com/')
+        return redirect('http://127.0.0.2:8000/')
 
 
 def busy_hour(request,time):
     if request.user.__str__()!='AnonymousUser':
-        if request.user.corporation_id!='':
+        if request.user.corporation_id!=None:
             all_rhs=ReservedHourModel.objects.filter(corp_loc_id__corporation=request.user.corporation_id)
             rh_dict={}
             for i in range(0,1440):
@@ -268,11 +292,22 @@ def busy_hour(request,time):
                 h=a/60
                 m=a%60
                 rh_list.append((str(h).split('.')[0]+':'+str(m),rh_dict[a]))
-            return render(request, 'list_any.html', {'title': 'Most Busy Hours', 'list1': rh_list,
-                                             'item_link': 'https://tlhclk.pythonanywhere.com/corporation/appointment_list/',
-                                             'item_title': 'Appointment List'})
+            data=[]
+            for y,z in rh_list:
+                data.append({"label":str(y),"value":str(z)})
+            print(rh_list[0][1])
+            return render(request, 'records/busy_hour.html', {'data1':data,
+                                                      'title':'Most Busy Hours',
+                                                  'yname':'Number of Appointment',
+                                                   'subtitle':'',
+                                                  'ynamesuffix':' Times',
+                                                   'list1': rh_list,
+                                                 'item_link': 'http://127.0.0.2:8000/corporation/appointment_list/',
+                                                 'item_title': 'Appointment List'})
+        else:
+            return redirect('http://127.0.0.2:8000/')
     else:
-        return redirect('https://tlhclk.pythonanywhere.com/')
+        return redirect('http://127.0.0.2:8000/')
 
 
 def complain(request,id):

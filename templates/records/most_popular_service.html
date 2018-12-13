@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+<!DOCTYPE html>
+
+    {% block content %}
+       <div id="chart-1"></div>
+
+        <p>{{ title }}</p>
+        <ul>
+        {% for item in list1 %}
+            <li>{{ item }}</li>
+
+        {% endfor %}
+        </ul>
+    {% endblock %}
+    {% block script %}
+
+   <script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
+   <script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"></script>
+
+        <script type="text/javascript">
+            FusionCharts.ready(function () {
+                new FusionCharts({"type": "line",
+                    "id": "ex1",
+                    "width": "600",
+                    "height": "400",
+                    "renderAt": "chart-1",
+                    "dataFormat": "json",
+                    "dataSource": {"chart": {
+                                        "caption": "{{ title|safe }}",
+                                        "yaxisname": "{{ yname|safe }}",
+                                        "subcaption": "{{ subtitle|safe }}",
+                                        "numbersuffix": "{{ ynamesuffix|safe }}",
+                                        "rotatelabels": "1",
+                                        "setadaptiveymin": "1",
+                                        "theme": "fusion"},
+                        "data":JSON.parse('{{ data1|safe }}'.replace(/&quot;/,'"')) }});FusionCharts("ex1").render();
+            });
+        </script>
+    {% endblock %}
+

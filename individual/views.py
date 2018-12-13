@@ -10,11 +10,11 @@ from datetime import datetime,timedelta
 def individual_list(request,individual_id):
     if request.user.__str__()!='AnonymousUser':
         individuals=IndividualModel.objects.all()
-        return render(request, 'list_any.html', {'title': 'Individual List', 'list1': individuals,
-                                             'item_link': 'https://tlhclk.pythonanywhere.com/individual/individual_add/',
+        return render(request, 'ind/individual_list.html', {'title': 'Individual List', 'list1': individuals,
+                                             'item_link': 'http://127.0.0.2:8000/individual/individual_add/',
                                              'item_title': 'New Individual'})
     else:
-        return redirect('https://tlhclk.pythonanywhere.com/')
+        return redirect('http://127.0.0.2:8000/')
 
 def individual_add(request,individual_id):
     if request.user.__str__()=='AnonymousUser':
@@ -36,6 +36,8 @@ def individual_add(request,individual_id):
                           }
 
                 user_add(user_dict)
-        return render(request,'form.html',{'form':form1})
+        return render(request,'ind/individual_add.html',{'form':form1})
     else:
-        return redirect('https://tlhclk.pythonanywhere.com/')
+        return redirect('http://127.0.0.2:8000/')
+
+

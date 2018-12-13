@@ -25,7 +25,7 @@ SECRET_KEY = '434x_5a$ye9bj!$pn(jdxwx1*he)50au6tk2y)hosr(o=x8mbj'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.2','127.0.0.1'    ,'localhost','127.0.0.2:8000']
+ALLOWED_HOSTS = ['127.0.0.2','127.0.0.1','localhost','tlhclk.pythonanywhere.com']
 
 
 # Application definition
@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'individual.apps.IndividualConfig',
     'records.apps.RecordsConfig',
     'user.apps.UserConfig',
+    'crispy_forms'
 ]
 
 MIDDLEWARE = [
@@ -71,6 +72,7 @@ TEMPLATES = [
         },
     },
 ]
+CRISPY_TEMPLATE_PACK='bootstrap4'
 
 WSGI_APPLICATION = 'appointment.wsgi.application'
 
