@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render,redirect
 from .models import CorporationModel,CorpLocModel,AppointmentHourModel,CorpServiceModel
-from .forms import AppHourForm,CorporationForm
+from .forms import AppHourForm,CorporationForm,CorpLocForm
 from django.contrib.auth.base_user import make_password
 from django.utils.timezone import now
 from user.views import user_add
@@ -56,6 +56,10 @@ def app_hour_list(request,app_hour_id):
         if request.user.corporation_id!='':
             app_hours=AppointmentHourModel.objects.filter(corp_loc_id__corporation=request.user.corporation_id)
             return render(request,'corp/app_hour_list.html',{'title':'Appointment Hour List','list1':app_hours,'item_link':'http://tlhclk.pythonanywhere.com/corporation/app_hour_add/','item_title':'New Appoinment Hour'})
+        else:
+            return redirect('http://tlhclk.pythonanywhere.com/')
+    else:
+        return redirect('http://tlhclk.pythonanywhere.com/')
 
 
 def corp_service_list(request,corp_service_id):
@@ -63,6 +67,10 @@ def corp_service_list(request,corp_service_id):
         if request.user.corporation_id!='':
             corp_services=CorpServiceModel.objects.filter(corporation_id=request.user.corporation_id)
             return render(request,'corp/corp_service_list.html',{'title':'Corporation Service List','list1':corp_services})
+        else:
+            return redirect('http://tlhclk.pythonanywhere.com/')
+    else:
+        return redirect('http://tlhclk.pythonanywhere.com/')
 
 
 def app_hour_add(request,app_hour_id):
@@ -78,3 +86,17 @@ def app_hour_add(request,app_hour_id):
     else:
         return redirect('http://tlhclk.pythonanywhere.com/')
 
+
+def corp_loc_add(request,corporation_id):
+    if request.user.__str__()=='AnonymousUser':
+        if request.user.corporation_id!='':
+            form1=CorpLocForm()
+            if request.POST:
+                form1=CorpLocForm(request.POST)
+                if form1.is_valid():
+                    form1.save()
+            return render(request,'corp/corp_loc_add.html',{'form':form1,'title':'Add New  Location For Corporations'})
+        else:
+            return redirect('http://tlhclk.pythonanywhere.com/')
+    else:
+        return redirect('http://tlhclk.pythonanywhere.com/')

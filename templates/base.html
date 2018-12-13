@@ -32,7 +32,7 @@
     </div>
     <ul class="nav navbar-light">
         <li style="padding-right: 50px"><a href="http://tlhclk.pythonanywhere.com/">Home</a></li>
-        <li style="padding-right: 750px"><a href="http://tlhclk.pythonanywhere.com/{{ item_link }}">{{ item_title }}</a></li>
+        <li style="padding-right: 750px"><a href="{{ item_link }}">{{ item_title }}</a></li>
     </ul>
     <div class="navbar-right dropdown">
     {% if user.username == '' %}

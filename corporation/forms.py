@@ -52,3 +52,10 @@ class CorporationForm(forms.ModelForm):
                   'corp_email',
                   'corp_phone',
                   ]
+
+class CorpLocForm(forms.ModelForm):
+
+
+    class Meta:
+        model=CorpLocModel
+        fields=['corporation','location']

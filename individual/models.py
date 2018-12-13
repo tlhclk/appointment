@@ -24,7 +24,7 @@ class IndividualModel(models.Model):
         db_table='individual_table'
 
     def __str__(self):
-        return str(self.ind_name)+' '+str(self.ind_lastname)
+        return str(self.ind_name).encode('utf-8')+' '+str(self.ind_lastname).encode('utf-8')
 
     def sta(self):
         return str(dict(self.status)[self.ind_statu])
