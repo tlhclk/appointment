@@ -42,7 +42,7 @@
                                         "rotatelabels": "1",
                                         "setadaptiveymin": "1",
                                         "theme": "fusion"},
-                        "data":JSON.parse('{{ data1 }}'.replace(/&#39;/,'"')) }});FusionCharts("ex1").render();
+                        "data":JSON.parse('{{ data1|safe }}'.replace(/&quot;/,'"')) }});FusionCharts("ex1").render();
             });
         </script>
     {% endblock %}

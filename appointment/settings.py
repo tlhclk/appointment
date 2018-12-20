@@ -25,10 +25,11 @@ SECRET_KEY = '434x_5a$ye9bj!$pn(jdxwx1*he)50au6tk2y)hosr(o=x8mbj'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.2','127.0.0.1','localhost','tlhclk.pythonanywhere.com']
+ALLOWED_HOSTS = ['127.0.0.2','127.0.0.1','localhost','127.0.0.2:8000']
 
 
 # Application definition
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -42,7 +43,6 @@ INSTALLED_APPS = [
     'individual.apps.IndividualConfig',
     'records.apps.RecordsConfig',
     'user.apps.UserConfig',
-
 ]
 
 MIDDLEWARE = [
@@ -72,7 +72,7 @@ TEMPLATES = [
         },
     },
 ]
-CRISPY_TEMPLATE_PACK='bootstrap4'
+
 
 WSGI_APPLICATION = 'appointment.wsgi.application'
 
@@ -132,15 +132,11 @@ STATICFILES_FINDERS = (
 'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
 
-# Media files (../media/...)
-
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
 
 
 AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend',)
 AUTH_USER_MODEL='user.User'
 
 # djauth/settings.py
-LOGIN_REDIRECT_URL = 'home'
-LOGOUT_REDIRECT_URL = 'home'
+LOGIN_REDIRECT_URL = 'home_page'
+LOGOUT_REDIRECT_URL = 'home_page'

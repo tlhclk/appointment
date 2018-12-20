@@ -12,10 +12,10 @@ def corporation_list(request,corporation_id):
     if request.user.__str__()!='AnonymousUser':
         corporations=CorporationModel.objects.all()
         return render(request, 'corp/corporation_list.html', {'title': 'Corporation List', 'list1': corporations,
-                                                     'item_link': 'http://tlhclk.pythonanywhere.com/corporation/corporation_add/',
+                                                     'item_link': 'http://127.0.0.2:8000/corporation/corporation_add/',
                                                      'item_title': 'New Corporation'})
     else:
-        return redirect('http://tlhclk.pythonanywhere.com/')
+        return redirect('http://127.0.0.2:8000/')
 
 
 def corporation_add(request,corporation_id):
@@ -39,64 +39,66 @@ def corporation_add(request,corporation_id):
                 user_add(user_dict)
         return render(request,'corp/corporation_add.html',{'form':form1,'title':'New Corporation'})
     else:
-        return redirect('http://tlhclk.pythonanywhere.com/')
+        return redirect('http://127.0.0.2:8000/')
 
 
 def corp_loc_list(request,corp_loc_id):
     if request.user.__str__()!='AnonymousUser':
-        if request.user.corporation_id!='':
+        if request.user.corporation_id!=None:
             corp_locs=CorpLocModel.objects.filter(corporation=request.user.corporation_id)
-            return render(request,'corp/corp_loc_list.html',{'title':'Corporation Locations List','list1':corp_locs})
+            return render(request,'corp/corp_loc_list.html',{'title':'Corporation Locations List','list1':corp_locs,
+                                                             'item_link':'http://127.0.0.2:8000/corporation/corp_loc_add/',
+                                                             'item_title':'New Corporation Location'})
     else:
-        return redirect('http://tlhclk.pythonanywhere.com/')
+        return redirect('http://127.0.0.2:8000/')
 
 
 def app_hour_list(request,app_hour_id):
     if request.user.__str__()!='AnonymousUser':
-        if request.user.corporation_id!='':
+        if request.user.corporation_id!=None:
             app_hours=AppointmentHourModel.objects.filter(corp_loc_id__corporation=request.user.corporation_id)
-            return render(request,'corp/app_hour_list.html',{'title':'Appointment Hour List','list1':app_hours,'item_link':'http://tlhclk.pythonanywhere.com/corporation/app_hour_add/','item_title':'New Appoinment Hour'})
+            return render(request,'corp/app_hour_list.html',{'title':'Appointment Hour List','list1':app_hours,'item_link':'http://127.0.0.2:8000/corporation/app_hour_add/','item_title':'New Appoinment Hour'})
         else:
-            return redirect('http://tlhclk.pythonanywhere.com/')
+            return redirect('http://127.0.0.2:8000/')
     else:
-        return redirect('http://tlhclk.pythonanywhere.com/')
+        return redirect('http://127.0.0.2:8000/')
 
 
 def corp_service_list(request,corp_service_id):
     if request.user.__str__()!='AnonymousUser':
-        if request.user.corporation_id!='':
+        if request.user.corporation_id!=None:
             corp_services=CorpServiceModel.objects.filter(corporation_id=request.user.corporation_id)
             return render(request,'corp/corp_service_list.html',{'title':'Corporation Service List','list1':corp_services})
         else:
-            return redirect('http://tlhclk.pythonanywhere.com/')
+            return redirect('http://127.0.0.2:8000/')
     else:
-        return redirect('http://tlhclk.pythonanywhere.com/')
+        return redirect('http://127.0.0.2:8000/')
 
 
 def app_hour_add(request,app_hour_id):
     if request.user.__str__()!='AnonymousUser':
-        if request.user.corporation_id!='':
+        if request.user.corporation_id!=None:
             form1=AppHourForm(request.user)
             if request.POST:
                 form1=AppHourForm(request.user,request.POST)
                 if form1.is_valid():
                     form1.add(request)
             return render(request,'corp/app_hour_add.html',{'form':form1,'title':'Add New Appointment Hour'})
-        return redirect('http://tlhclk.pythonanywhere.com/')
+        return redirect('http://127.0.0.2:8000/')
     else:
-        return redirect('http://tlhclk.pythonanywhere.com/')
+        return redirect('http://127.0.0.2:8000/')
 
 
-def corp_loc_add(request,corporation_id):
+def corp_loc_add(request,corp_loc_id):
     if request.user.__str__()=='AnonymousUser':
-        if request.user.corporation_id!='':
+        if request.user.corporation_id!=None:
             form1=CorpLocForm()
             if request.POST:
                 form1=CorpLocForm(request.POST)
                 if form1.is_valid():
                     form1.save()
-            return render(request,'corp/corp_loc_add.html',{'form':form1,'title':'Add New  Location For Corporations'})
+            return render(request,'corp/corp_loc_add.html',{'form':form1,'title':'Add New Location For Corporations'})
         else:
-            return redirect('http://tlhclk.pythonanywhere.com/')
+            return redirect('http://127.0.0.2:8000/')
     else:
-        return redirect('http://tlhclk.pythonanywhere.com/')
+        return redirect('http://127.0.0.2:8000/')
