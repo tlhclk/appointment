@@ -9,9 +9,9 @@ def user_list(request,user_id):
             user=User.objects.all()
             return render(request,'user/user_list.html',{'title':'User List','list1':user})
         else:
-            return redirect('http://127.0.0.2:8000/')
+            return redirect('http://eceuslu.pythonanywhere.com/')
     else:
-        return redirect('http://127.0.0.2:8000/')
+        return redirect('http://eceuslu.pythonanywhere.com/')
 
 
 def user_add(user_dict):

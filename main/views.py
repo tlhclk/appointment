@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 from django.utils.translation import ugettext_lazy as _
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,render_to_response
 from .models import DistrictModel,ProvinceModel,StreetModel,TownModel,ServiceModel
 from .forms import LoginForm,ServiceForm
 from django.contrib.auth import(authenticate,login,logout)
-from django.contrib import messages
 from user.models import User
+from django.template import RequestContext
+
 
 def home_page(request):
     return render(request,'home.html',{'user':request.user})
@@ -22,14 +23,14 @@ def log_in(request):
                 user=User.objects.get(email=email)
                 user = authenticate(username=user.username,password=password)
                 login(request, user)
-                return redirect('http://127.0.0.2:8000/')
+                return redirect('http://eceuslu.pythonanywhere.com/')
         return render(request,'user/login.html',{'form':formuser})
     else:
-        return redirect('http://127.0.0.2:8000/')
+        return redirect('http://eceuslu.pythonanywhere.com/')
 
 def log_out(request):
     logout(request)
-    return redirect('http://127.0.0.2:8000/')
+    return redirect('http://eceuslu.pythonanywhere.com/')
 
 #
 # def province_list(request,province_id):
@@ -57,14 +58,36 @@ def service_add(request,service_id):
                 form1.save()
         return render(request,'form.html',{'form':form1})
     else:
-        return redirect('http://127.0.0.2:8000/')
+        return redirect('http://eceuslu.pythonanywhere.com/')
 
 def service_list(request,service_id):
     if request.user.__str__()!='AnonymousUser':
         services=ServiceModel.objects.all()
-        return render(request,'main/service_list.html',{'title':'Service List','list1':services,'item_link':'http://127.0.0.2:8000/main/service_add/','item_title':'New Service'})
+        return render(request,'main/service_list.html',{'title':'Service List','list1':services,'item_link':'http://eceuslu.pythonanywhere.com/main/service_add/','item_title':'New Service'})
     else:
-        return redirect('http://127.0.0.2:8000/')
+        return redirect('http://eceuslu.pythonanywhere.com/')
 
 
+
+
+def handler404(request, *args, **argv):
+    response = render_to_response('404.html', {'title':'404 Page Not Found'},context_instance=RequestContext(request))
+    response.status_code = 404
+    return response
+
+def handler400(request, *args, **argv):
+    response = render_to_response('404.html', {'title':'400 Bad Request Error'},context_instance=RequestContext(request))
+    response.status_code = 404
+    return response
+
+def handler403(request, *args, **argv):
+    response = render_to_response('404.html', {'title':'404 Page Not Found'},context_instance=RequestContext(request))
+    response.status_code = 404
+    return response
+
+
+def handler500(request, *args, **argv):
+    response = render_to_response('500.html', {'title':'This Page Is Not Working'},context_instance=RequestContext(request))
+    response.status_code = 500
+    return response
 

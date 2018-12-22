@@ -31,19 +31,19 @@
 
     </div>
     <ul class="nav navbar-light">
-        <li style="padding-right: 50px"><a href="http://127.0.0.2:8000/">Home</a></li>
+        <li style="padding-right: 50px"><a href="http://eceuslu.pythonanywhere.com/">Home</a></li>
         <li style="padding-right: 750px"><a href="{{ item_link }}">{{ item_title }}</a></li>
     </ul>
     <div class="navbar-right dropdown">
     {% if user.username == '' %}
-    <a href="http://127.0.0.2:8000/login/">LOGIN</a>
+    <a href="http://eceuslu.pythonanywhere.com/login/">LOGIN</a>
     {% else %}
-        <a href="http://127.0.0.2:8000/login/" class="nav-link dropdown-toggle" id="dropdown1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <a href="http://eceuslu.pythonanywhere.com/login/" class="nav-link dropdown-toggle" id="dropdown1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             {{ user.first_name }} - {{ user.last_name }}</a>
     <div class="dropdown-menu" aria-labelledby="dropdown1">
-        <a href="http://127.0.0.2:8000/individual/appointment_list/i" class="dropdown-item">My Appointments</a>
-        <a href="http://127.0.0.2:8000/profile/{% if user.individual_id_id %}{{ user.individual_id_id }}{% else %}{{ user.corporation_id_id }}{% endif %}" class="dropdown-item">{{ user.first_name }} - {{ user.last_name }}</a>
-        <a href="http://127.0.0.2:8000/logout/" class="dropdown-item">LOGOUT</a>
+        <a href="http://eceuslu.pythonanywhere.com/individual/appointment_list/i" class="dropdown-item">My Appointments</a>
+        <a href="http://eceuslu.pythonanywhere.com/profile/{% if user.individual_id_id %}{{ user.individual_id_id }}{% else %}{{ user.corporation_id_id }}{% endif %}" class="dropdown-item">{{ user.first_name }} - {{ user.last_name }}</a>
+        <a href="http://eceuslu.pythonanywhere.com/logout/" class="dropdown-item">LOGOUT</a>
     </div>{% endif %}
 </div>
     </div>
@@ -54,43 +54,43 @@
             <ul class="sidebar-nav">
                 <li><p>Corporation Lists</p>
                     <ul>
-                        <li><a href="http://127.0.0.2:8000/corporation/corporation_list/">Corporation List</a></li>
-                        <li><a href="http://127.0.0.2:8000/corporation/corp_loc_list/">Corporation Locations List</a></li>
-                        <li><a href="http://127.0.0.2:8000/corporation/app_hour_list/">Appointment Hour List</a></li>
-                        <li><a href="http://127.0.0.2:8000/corporation/corp_service_list/">Corporation Services List</a></li>
-                        <li><a href="http://127.0.0.2:8000/corporation/appointment_list/c">Appointment List</a></li>
-                        <li><a href="http://127.0.0.2:8000/corporation/corporation_add/">Corporation Add</a></li>
+                        <li><a href="http://eceuslu.pythonanywhere.com/corporation/corporation_list/">Corporation List</a></li>
+                        <li><a href="http://eceuslu.pythonanywhere.com/corporation/corp_loc_list/">Corporation Locations List</a></li>
+                        <li><a href="http://eceuslu.pythonanywhere.com/corporation/app_hour_list/">Appointment Hour List</a></li>
+                        <li><a href="http://eceuslu.pythonanywhere.com/corporation/corp_service_list/">Corporation Services List</a></li>
+                        <li><a href="http://eceuslu.pythonanywhere.com/corporation/appointment_list/c">Appointment List</a></li>
+                        <li><a href="http://eceuslu.pythonanywhere.com/corporation/corporation_add/">Corporation Add</a></li>
                     </ul></li>
                 <li><p>Individual Lists</p>
                     <ul>
-                        <li><a href="http://127.0.0.2:8000/individual/individual_list/">Individual List</a></li>
-                        <li><a href="http://127.0.0.2:8000/individual/individual_add/">Individual Add</a></li>
-                        <li><a href="http://127.0.0.2:8000/individual/appointment_list/i">Appointment List</a></li>
-                        <li><a href="http://127.0.0.2:8000/record/make_appointment/">Make An Appointmnet</a></li>
+                        <li><a href="http://eceuslu.pythonanywhere.com/individual/individual_list/">Individual List</a></li>
+                        <li><a href="http://eceuslu.pythonanywhere.com/individual/individual_add/">Individual Add</a></li>
+                        <li><a href="http://eceuslu.pythonanywhere.com/individual/appointment_list/i">Appointment List</a></li>
+                        <li><a href="http://eceuslu.pythonanywhere.com/record/make_appointment/">Make An Appointmnet</a></li>
                     </ul></li>
                 {% if user.username != '' %}
                 <li><p>Main Lists
                     <ul>
-                        <li><a href="http://127.0.0.2:8000/main/street_list/">Street List</a></li>
-                        <li><a href="http://127.0.0.2:8000/main/service_list/">Service List</a></li>
+                        <li><a href="http://eceuslu.pythonanywhere.com/main/street_list/">Street List</a></li>
+                        <li><a href="http://eceuslu.pythonanywhere.com/main/service_list/">Service List</a></li>
                     </ul></li>
                 {% endif %}
                 <li><p>Record Lists</p>
                     <ul>
-{#                        <li><a href="http://127.0.0.2:8000/record/appointment_list/">Appointment List</a></li>#}
-                        <li><a href="http://127.0.0.2:8000/record/busy_day/">Most Busy Day</a></li>
-                        <li><a href="http://127.0.0.2:8000/record/most_popular_service/">Most Popular Service</a></li>
-                        <li><a href="http://127.0.0.2:8000/record/most_appointer/">Most Appointer</a></li>
-                        <li><a href="http://127.0.0.2:8000/record/busy_hour/">Most Busy Hour</a></li>
-                        <li><a href="http://127.0.0.2:8000/record/faa/">Find Available Appointment</a></li>
-                        <li><a href="http://127.0.0.2:8000/record/show_close_corp/t">Show Close Corp</a></li>
-                        <li><a href="http://127.0.0.2:8000/record/rating_list/">Rating List</a></li>
-{#                        <li><a href="http://127.0.0.2:8000/record/complaint/">Complaint</a></li>#}
+{#                        <li><a href="http://eceuslu.pythonanywhere.com/record/appointment_list/">Appointment List</a></li>#}
+                        <li><a href="http://eceuslu.pythonanywhere.com/record/busy_day/">Most Busy Day</a></li>
+                        <li><a href="http://eceuslu.pythonanywhere.com/record/most_popular_service/">Most Popular Service</a></li>
+                        <li><a href="http://eceuslu.pythonanywhere.com/record/most_appointer/">Most Appointer</a></li>
+                        <li><a href="http://eceuslu.pythonanywhere.com/record/busy_hour/">Most Busy Hour</a></li>
+                        <li><a href="http://eceuslu.pythonanywhere.com/record/faa/">Find Available Appointment</a></li>
+                        <li><a href="http://eceuslu.pythonanywhere.com/record/show_close_corp/t">Show Close Corp</a></li>
+                        <li><a href="http://eceuslu.pythonanywhere.com/record/rating_list/">Rating List</a></li>
+{#                        <li><a href="http://eceuslu.pythonanywhere.com/record/complaint/">Complaint</a></li>#}
                     </ul></li>
                 {% if user.is_superuser %}
                 <li><p>User Lists</p>
                     <ul>
-                        <li><a href="http://127.0.0.2:8000/user/user_list/">User List</a></li>
+                        <li><a href="http://eceuslu.pythonanywhere.com/user/user_list/">User List</a></li>
                     </ul></li>
                 {% endif %}
             </ul>
