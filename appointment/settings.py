@@ -136,7 +136,3 @@ STATICFILES_FINDERS = (
 
 AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend',)
 AUTH_USER_MODEL='user.User'
-
-# djauth/settings.py
-LOGIN_REDIRECT_URL = 'home_page'
-LOGOUT_REDIRECT_URL = 'home_page'
