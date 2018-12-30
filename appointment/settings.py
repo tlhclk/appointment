@@ -132,7 +132,3 @@ STATICFILES_FINDERS = (
 'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
 
-
-
-AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend',)
-AUTH_USER_MODEL='user.User'
